@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MCSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AccessTab">
+          <Key>
+            <PropertyRef Name="intTabID" />
+          </Key>
+          <Property Name="intTabID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="strTabName" Type="nvarchar" MaxLength="255" />
+          <Property Name="strDescription" Type="nvarchar" MaxLength="512" />
+          <Property Name="strTabUrl" Type="nvarchar" MaxLength="255" />
+          <Property Name="strTabGroupName" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="AccessUser">
+          <Key>
+            <PropertyRef Name="intAccessID" />
+          </Key>
+          <Property Name="intAccessID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="intUserId" Type="int" />
+          <Property Name="dCreated" Type="date" />
+          <Property Name="intTabID" Type="int" />
+          <Property Name="intGroupAccessId" Type="int" />
+          <Property Name="intLocationId" Type="int" />
+        </EntityType>
+        <EntityType Name="newEquipment">
+          <Key>
+            <PropertyRef Name="intEquipmentID" />
+          </Key>
+          <Property Name="intEquipmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="intGarageRoom" Type="nvarchar" MaxLength="50" />
+          <Property Name="intManufacturerID" Type="int" Nullable="false" />
+          <Property Name="intModelID" Type="int" Nullable="false" />
+          <Property Name="strManufYear" Type="nvarchar" MaxLength="4" />
+          <Property Name="intSNPrefixID" Type="int" Nullable="false" />
+          <Property Name="strSerialNo" Type="nvarchar" MaxLength="20" />
+          <Property Name="intEquipmentTypeID" Type="int" Nullable="false" />
+          <Property Name="intSMCSFamilyID" Type="int" Nullable="false" />
+          <Property Name="intSizeID" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="date" />
+          <Property Name="intMetered" Type="float" Nullable="false" />
+          <Property Name="LastDate" Type="date" Nullable="false" />
+          <Property Name="intLastMetered" Type="float" Nullable="false" />
+          <Property Name="intTotalMetered" Type="float" Nullable="false" />
+          <Property Name="intlimitDay" Type="int" />
+          <Property Name="intlimitWeek" Type="int" />
+          <Property Name="bitActive" Type="bit" Nullable="false" />
+          <Property Name="bitPreservation" Type="bit" Nullable="false" />
+          <Property Name="bitMeter" Type="bit" Nullable="false" />
+          <Property Name="bitKTG" Type="bit" Nullable="false" />
+          <Property Name="isDelete" Type="bit" Nullable="false" />
+          <Property Name="intLocationId" Type="int" Nullable="false" />
+          <Property Name="strDescription" Type="nvarchar" MaxLength="1050" />
+          <Property Name="floatCostTires" Type="float" />
+          <Property Name="intCostTiresCurrency" Type="int" />
+          <Property Name="floatAverageDivergence" Type="float" />
+          <Property Name="floatFullPrice" Type="float" />
+          <Property Name="intFullPriceCurrency" Type="int" />
+          <Property Name="dateStartUpDate" Type="date" />
+          <Property Name="intServiceLife" Type="int" />
+          <Property Name="intHoweverOddsAcceleration" Type="int" />
+          <Property Name="bitMethodAmortization" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AccessUsersMCS_AccessTabMCS">
+          <End Role="AccessTab" Type="Self.AccessTab" Multiplicity="0..1" />
+          <End Role="AccessUser" Type="Self.AccessUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccessTab">
+              <PropertyRef Name="intTabID" />
+            </Principal>
+            <Dependent Role="AccessUser">
+              <PropertyRef Name="intTabID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MCSModelStoreContainer">
+          <EntitySet Name="AccessTab" EntityType="Self.AccessTab" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AccessUser" EntityType="Self.AccessUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="newEquipment" EntityType="Self.newEquipment" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AccessUsersMCS_AccessTabMCS" Association="Self.FK_AccessUsersMCS_AccessTabMCS">
+            <End Role="AccessTab" EntitySet="AccessTab" />
+            <End Role="AccessUser" EntitySet="AccessUser" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MCSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AccessTab">
+          <Key>
+            <PropertyRef Name="intTabID" />
+          </Key>
+          <Property Name="intTabID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="strTabName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="strDescription" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="strTabUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="strTabGroupName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AccessUsers" Relationship="Self.FK_AccessUsersMCS_AccessTabMCS" FromRole="AccessTab" ToRole="AccessUser" />
+        </EntityType>
+        <EntityType Name="AccessUser">
+          <Key>
+            <PropertyRef Name="intAccessID" />
+          </Key>
+          <Property Name="intAccessID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="intUserId" Type="Int32" />
+          <Property Name="dCreated" Type="DateTime" Precision="0" />
+          <Property Name="intTabID" Type="Int32" />
+          <Property Name="intGroupAccessId" Type="Int32" />
+          <Property Name="intLocationId" Type="Int32" />
+          <NavigationProperty Name="AccessTab" Relationship="Self.FK_AccessUsersMCS_AccessTabMCS" FromRole="AccessUser" ToRole="AccessTab" />
+        </EntityType>
+        <Association Name="FK_AccessUsersMCS_AccessTabMCS">
+          <End Role="AccessTab" Type="Self.AccessTab" Multiplicity="0..1" />
+          <End Role="AccessUser" Type="Self.AccessUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccessTab">
+              <PropertyRef Name="intTabID" />
+            </Principal>
+            <Dependent Role="AccessUser">
+              <PropertyRef Name="intTabID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MCSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AccessTabs" EntityType="Self.AccessTab" />
+          <EntitySet Name="AccessUsers" EntityType="Self.AccessUser" />
+          <AssociationSet Name="FK_AccessUsersMCS_AccessTabMCS" Association="Self.FK_AccessUsersMCS_AccessTabMCS">
+            <End Role="AccessTab" EntitySet="AccessTabs" />
+            <End Role="AccessUser" EntitySet="AccessUsers" />
+          </AssociationSet>
+          <EntitySet Name="newEquipments" EntityType="MCSModel.newEquipment" />
+        </EntityContainer>
+        <EntityType Name="newEquipment">
+          <Key>
+            <PropertyRef Name="intEquipmentID" />
+          </Key>
+          <Property Name="intEquipmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="intGarageRoom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="intManufacturerID" Type="Int32" Nullable="false" />
+          <Property Name="intModelID" Type="Int32" Nullable="false" />
+          <Property Name="strManufYear" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="intSNPrefixID" Type="Int32" Nullable="false" />
+          <Property Name="strSerialNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="intEquipmentTypeID" Type="Int32" Nullable="false" />
+          <Property Name="intSMCSFamilyID" Type="Int32" Nullable="false" />
+          <Property Name="intSizeID" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="0" />
+          <Property Name="intMetered" Type="Double" Nullable="false" />
+          <Property Name="LastDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="intLastMetered" Type="Double" Nullable="false" />
+          <Property Name="intTotalMetered" Type="Double" Nullable="false" />
+          <Property Name="intlimitDay" Type="Int32" />
+          <Property Name="intlimitWeek" Type="Int32" />
+          <Property Name="bitActive" Type="Boolean" Nullable="false" />
+          <Property Name="bitPreservation" Type="Boolean" Nullable="false" />
+          <Property Name="bitMeter" Type="Boolean" Nullable="false" />
+          <Property Name="bitKTG" Type="Boolean" Nullable="false" />
+          <Property Name="isDelete" Type="Boolean" Nullable="false" />
+          <Property Name="intLocationId" Type="Int32" Nullable="false" />
+          <Property Name="strDescription" Type="String" MaxLength="1050" FixedLength="false" Unicode="true" />
+          <Property Name="floatCostTires" Type="Double" />
+          <Property Name="intCostTiresCurrency" Type="Int32" />
+          <Property Name="floatAverageDivergence" Type="Double" />
+          <Property Name="floatFullPrice" Type="Double" />
+          <Property Name="intFullPriceCurrency" Type="Int32" />
+          <Property Name="dateStartUpDate" Type="DateTime" Precision="0" />
+          <Property Name="intServiceLife" Type="Int32" />
+          <Property Name="intHoweverOddsAcceleration" Type="Int32" />
+          <Property Name="bitMethodAmortization" Type="Boolean" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MCSModelStoreContainer" CdmEntityContainer="MCSEntities">
+          <EntitySetMapping Name="AccessTabs">
+            <EntityTypeMapping TypeName="MCSModel.AccessTab">
+              <MappingFragment StoreEntitySet="AccessTab">
+                <ScalarProperty Name="intTabID" ColumnName="intTabID" />
+                <ScalarProperty Name="strTabName" ColumnName="strTabName" />
+                <ScalarProperty Name="strDescription" ColumnName="strDescription" />
+                <ScalarProperty Name="strTabUrl" ColumnName="strTabUrl" />
+                <ScalarProperty Name="strTabGroupName" ColumnName="strTabGroupName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccessUsers">
+            <EntityTypeMapping TypeName="MCSModel.AccessUser">
+              <MappingFragment StoreEntitySet="AccessUser">
+                <ScalarProperty Name="intAccessID" ColumnName="intAccessID" />
+                <ScalarProperty Name="intUserId" ColumnName="intUserId" />
+                <ScalarProperty Name="dCreated" ColumnName="dCreated" />
+                <ScalarProperty Name="intTabID" ColumnName="intTabID" />
+                <ScalarProperty Name="intGroupAccessId" ColumnName="intGroupAccessId" />
+                <ScalarProperty Name="intLocationId" ColumnName="intLocationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="newEquipments">
+            <EntityTypeMapping TypeName="MCSModel.newEquipment">
+              <MappingFragment StoreEntitySet="newEquipment">
+                <ScalarProperty Name="bitMethodAmortization" ColumnName="bitMethodAmortization" />
+                <ScalarProperty Name="intHoweverOddsAcceleration" ColumnName="intHoweverOddsAcceleration" />
+                <ScalarProperty Name="intServiceLife" ColumnName="intServiceLife" />
+                <ScalarProperty Name="dateStartUpDate" ColumnName="dateStartUpDate" />
+                <ScalarProperty Name="intFullPriceCurrency" ColumnName="intFullPriceCurrency" />
+                <ScalarProperty Name="floatFullPrice" ColumnName="floatFullPrice" />
+                <ScalarProperty Name="floatAverageDivergence" ColumnName="floatAverageDivergence" />
+                <ScalarProperty Name="intCostTiresCurrency" ColumnName="intCostTiresCurrency" />
+                <ScalarProperty Name="floatCostTires" ColumnName="floatCostTires" />
+                <ScalarProperty Name="strDescription" ColumnName="strDescription" />
+                <ScalarProperty Name="intLocationId" ColumnName="intLocationId" />
+                <ScalarProperty Name="isDelete" ColumnName="isDelete" />
+                <ScalarProperty Name="bitKTG" ColumnName="bitKTG" />
+                <ScalarProperty Name="bitMeter" ColumnName="bitMeter" />
+                <ScalarProperty Name="bitPreservation" ColumnName="bitPreservation" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="intlimitWeek" ColumnName="intlimitWeek" />
+                <ScalarProperty Name="intlimitDay" ColumnName="intlimitDay" />
+                <ScalarProperty Name="intTotalMetered" ColumnName="intTotalMetered" />
+                <ScalarProperty Name="intLastMetered" ColumnName="intLastMetered" />
+                <ScalarProperty Name="LastDate" ColumnName="LastDate" />
+                <ScalarProperty Name="intMetered" ColumnName="intMetered" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="intSizeID" ColumnName="intSizeID" />
+                <ScalarProperty Name="intSMCSFamilyID" ColumnName="intSMCSFamilyID" />
+                <ScalarProperty Name="intEquipmentTypeID" ColumnName="intEquipmentTypeID" />
+                <ScalarProperty Name="strSerialNo" ColumnName="strSerialNo" />
+                <ScalarProperty Name="intSNPrefixID" ColumnName="intSNPrefixID" />
+                <ScalarProperty Name="strManufYear" ColumnName="strManufYear" />
+                <ScalarProperty Name="intModelID" ColumnName="intModelID" />
+                <ScalarProperty Name="intManufacturerID" ColumnName="intManufacturerID" />
+                <ScalarProperty Name="intGarageRoom" ColumnName="intGarageRoom" />
+                <ScalarProperty Name="intEquipmentID" ColumnName="intEquipmentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
